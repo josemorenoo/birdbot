@@ -13,38 +13,38 @@ class AssetUtils:
     REPO_MANIFEST_LOCATION = "/tmp/repo_manifest.json"
     CONTRIBUTORS_LOCATION = "/tmp/contributors.json"
 
-    @staticmethod
-    def fetch_report(report_date: datetime) -> str:
+    @classmethod
+    def fetch_report(cls, report_date: datetime) -> str:
         report_date_str: str = report_date.strftime("%Y-%m-%d")
         report_path = f"reports/{report_date_str}/{report_date_str}.json"
         local_report_path = f"/tmp/{report_date_str}.json"
 
         s3_client = boto3.resource("s3")
-        s3_client.Bucket(Bucket).download_file(report_path, local_report_path)
+        s3_client.Bucket(cls.BUCKET).download_file(report_path, local_report_path)
         return local_report_path
 
-    @staticmethod
-    def fetch_repo_manifest() -> str:
+    @classmethod
+    def fetch_repo_manifest(cls) -> str:
         s3_client = boto3.resource("s3")
-        s3_client.Bucket(Bucket).download_file(
-            "assets/repo_manifest.json", REPO_MANIFEST_LOCATION
+        s3_client.Bucket(cls.BUCKET).download_file(
+            "assets/repo_manifest.json", cls.REPO_MANIFEST_LOCATION
         )
-        return REPO_MANIFEST_LOCATION
+        return cls.REPO_MANIFEST_LOCATION
 
-    @staticmethod
-    def fetch_contributors_asset() -> str:
+    @classmethod
+    def fetch_contributors_asset(cls) -> str:
         s3_client = boto3.resource("s3")
-        s3_client.Bucket(Bucket).download_file(
-            "assets/contributors.json", CONTRIBUTORS_LOCATION
+        s3_client.Bucket(cls.BUCKET).download_file(
+            "assets/contributors.json", cls.CONTRIBUTORS_LOCATION
         )
-        return CONTRIBUTORS_LOCATION
+        return cls.CONTRIBUTORS_LOCATION
 
-    @staticmethod
-    def open_repo_manifest():
-        with open(REPO_MANIFEST_LOCATION, "r") as f:
+    @classmethod
+    def open_repo_manifest(cls):
+        with open(cls.REPO_MANIFEST_LOCATION, "r") as f:
             return json.load(f)
 
-    @staticmethod
-    def open_contributors_asset() -> Dict[str, List[Dict[str, Union[str, int]]]]:
-        with open(CONTRIBUTORS_LOCATION, "r") as f:
+    @classmethod
+    def open_contributors_asset(cls) -> Dict[str, List[Dict[str, Union[str, int]]]]:
+        with open(cls.CONTRIBUTORS_LOCATION, "r") as f:
             return json.load(f)

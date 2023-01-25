@@ -164,13 +164,14 @@ def get_most_active_by_author(report_date_str: str, n=10, mode="DAILY"):
         (
             token_name,
             len(set(data["distinct_authors"])),
-            get_active_ratio(token_name, set(data["distinct_authors"])),
+            get_active_ratio(token_name, len(set(data["distinct_authors"]))),
+            f'{len(set(data["distinct_authors"]))}/{len(historical_contributors[token_name])} devs',
         )
         for token_name, data in report.items()
     ]
 
     top_n_projects_by_authors = sorted(
-        authors_by_project, key=lambda x: len(x[2]), reverse=True
+        authors_by_project, key=lambda x: x[2], reverse=True
     )[:n]
 
     return top_n_projects_by_authors
@@ -270,8 +271,10 @@ def get_file_extension_breakdown_from_summary_report(
         return dict(list(d1.items()) + list(d2.items()))
 
     token_specific_extension_data = [
-        combine_dicts({"extension": extension}, metadata)
-        for extension, metadata in raw_report[token]["file_extensions"].items()
+        {"extension": file_extension, "extension_count": extension_count}
+        for file_extension, extension_count in raw_report[token][
+            "file_extensions"
+        ].items()
     ]
 
     sorted_by_extension_count = sorted(
@@ -303,7 +306,7 @@ def get_changed_methods(project_commits) -> List[str]:
 
 
 def get_daily_price_deltas(sorted_tokens: List[Any], report_date, mode="DAILY"):
-    summary_report = get_summary_report(report_date, mode)
+    summary_report = get_summary_report()
     return [
         summary_report["tokens_represented"][token]["delta_percentage"]
         for token in sorted_tokens

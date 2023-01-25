@@ -45,7 +45,7 @@ def crop_original_photo(original_img):
 def get_price_deltas_from_summary_report(
     existing_img_name: str, report_date: datetime, mode: str = "DAILY"
 ):
-    summary_report = report_util.get_summary_report(report_date, mode=mode)
+    summary_report = report_util.get_summary_report()
     if existing_img_name == GRAPH_NAMES["COMMITS"]:
         summary_report_key = "top_by_num_commits"
     elif existing_img_name == GRAPH_NAMES["AUTHORS"]:

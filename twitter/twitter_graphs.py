@@ -135,10 +135,9 @@ def create_top_by_loc_graph(report_date, mode="DAILY"):
     tokens_represented = [metadata[0] for metadata in by_locs]
     with_extension_logos = extensions.add_ext_imgs_to_graph(
         bar_graph_img=combined_img,
+        report_date=report_date,
         tokens_represented_in_graph=tokens_represented,
         bar_percentages=bar_percentages,
-        report_date=report_date,
-        mode=mode,
     )
 
     with_extension_logos.save(f"{REPORT_DIR}/{GRAPH_NAMES['LOC_AND_EXT']}")
@@ -219,10 +218,9 @@ def create_top_by_num_authors_graph(report_date, mode="DAILY"):
 
     with_extension_logos = extensions.add_ext_imgs_to_graph(
         bar_graph_img=combined_img,
+        report_date=report_date,
         tokens_represented_in_graph=tokens_represented,
         bar_percentages=bar_percentages,
-        report_date=report_date,
-        mode=mode,
     )
 
     with_extension_logos.save(f"{REPORT_DIR}/{GRAPH_NAMES['AUTHORS_AND_EXT']}")
@@ -296,10 +294,9 @@ def create_top_commits_daily_graph(report_date, mode="DAILY"):
     tokens_represented = [metadata[0] for metadata in by_commits]
     with_extension_logos = extensions.add_ext_imgs_to_graph(
         bar_graph_img=combined_img,
+        report_date=report_date,
         bar_percentages=bar_percentages,
         tokens_represented_in_graph=tokens_represented,
-        report_date=report_date,
-        mode=mode,
     )
 
     with_extension_logos.save(f"{REPORT_DIR}/{GRAPH_NAMES['COMMITS_AND_EXT']}")

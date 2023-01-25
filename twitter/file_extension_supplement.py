@@ -8,10 +8,9 @@ import report_parser.report_util as report_util
 
 def add_ext_imgs_to_graph(
     bar_graph_img,
+    report_date,
     bar_percentages: List[float],
     tokens_represented_in_graph: List[str],
-    report_date,
-    timeframe,
     top_n=5,
 ):
     """
@@ -24,7 +23,7 @@ def add_ext_imgs_to_graph(
     get_ext_for_token = lambda token: [
         ext["extension"]
         for ext in report_util.get_file_extension_breakdown_from_summary_report(
-            token, report_date, timeframe, verbose=False
+            token, report_date
         )
     ]
 
@@ -57,7 +56,6 @@ def add_ext_imgs_to_graph(
                     ext_img=Image.open(ext_img_path),
                     bar_from_top=bar_idx,
                     logo_idx=logo_idx - skipped,
-                    top_n=top_n,
                     bar_percentage=bar_percentages[bar_idx],
                 )
                 logo_idx += 1
