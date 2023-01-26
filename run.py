@@ -1,4 +1,3 @@
-import boto3
 from datetime import datetime
 import random
 import time
@@ -7,7 +6,7 @@ from assets.asset_utils import AssetUtils
 
 from report_parser.report_util import generate_summary_report
 
-import twitter.post_maker as post
+from twitter.post_maker import PostMaker
 import twitter.twitter_graphs as graphs
 
 # YESTERDAY = datetime.today() - timedelta(hours=24)
@@ -19,19 +18,22 @@ def post_loc_chart(post_to_twitter=True, mode="DAILY", day=datetime.today()):
     """
     graphs.create_top_by_loc_graph(day, mode=mode)
     if post_to_twitter:
-        post.loc_chart(day, mode=mode)
+        post = PostMaker()
+        post.post_loc_chart(day, timeframe=mode)
 
 
 def post_authors_chart(post_to_twitter=True, mode="DAILY", day=datetime.today()):
     graphs.create_top_by_num_authors_graph(day, mode=mode)
     if post_to_twitter:
-        post.authors_chart(day, mode=mode)
+        post = PostMaker()
+        post.post_authors_chart(day, timeframe=mode)
 
 
 def post_commits_chart(post_to_twitter=True, mode="DAILY", day=datetime.today()):
     graphs.create_top_commits_daily_graph(day, mode=mode)
     if post_to_twitter:
-        post.top_commits_chart(day, mode=mode)
+        post = PostMaker()
+        post.post_top_commits_chart(day, timeframe=mode)
 
 
 def randomize_and_post(
@@ -62,10 +64,10 @@ def make_report_and_post_all_charts(
 
 if __name__ == "__main__":
     report_date = datetime.today()
-    AssetUtils.fetch_report(report_date)
+    # AssetUtils.fetch_report(report_date)
 
-    generate_summary_report(report_date)
+    # generate_summary_report(report_date)
 
-    post_commits_chart(
-        post_to_twitter=False,
+    post_loc_chart(
+        post_to_twitter=True,
     )

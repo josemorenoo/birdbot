@@ -24,6 +24,7 @@ def add_price_deltas(
     price_deltas = get_price_deltas_from_summary_report(
         existing_img_name, report_date, mode
     )
+
     price_img = create_price_supplemental_image(price_deltas, height)
 
     # combine images and save

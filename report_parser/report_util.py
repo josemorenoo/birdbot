@@ -20,7 +20,7 @@ def generate_summary_report(report_date, mode="DAILY"):
         report_date_str (str): "YYY-MM-DD"
     """
     if mode == "DAILY":
-        end_of_date = report_date + timedelta(hours=24)
+        start_date = report_date - timedelta(hours=24)
         report_date_str = report_date.strftime("%Y-%m-%d")
 
     # display the top 10 from the daily report
@@ -43,41 +43,21 @@ def generate_summary_report(report_date, mode="DAILY"):
         try:  # primary source, coinbase
             print(f"{token}, trying coinbase for price data")
             daily_df = co.get_token_price_from_coinbase(
-                start_date=report_date, end_date=end_of_date
+                start_date=start_date, end_date=report_date
             )
-            open_price = (daily_df["open"].values[0],)
+            open_price = daily_df["open"].values[0]
             close_price = daily_df["close"].values[-1]
-            delta_percentage = round(
-                100 * (close_price[0] - open_price[0]) / open_price[0], 2
-            )
+            delta_percentage = round(100 * (close_price - open_price) / open_price, 2)
         except Exception as e:
             print(e)
-            open_price = [None]
-            close_price = [None]
+            open_price = None
+            close_price = None
             delta_percentage = None
-
-        if not delta_percentage:
-            try:  # pandas webreader
-                print(f"{token}, trying webreader for price data")
-
-                token_price_df = co.get_token_price_df(report_date)
-                daily_df = token_price_df.loc[[report_date_str]]
-                open_price = (daily_df["Open"].values[0],)  # token_price_df["Open"][0],
-                close_price = (
-                    daily_df["Close"].values[0],
-                )  # token_price_df["Close"][-1]
-                delta_percentage = round(
-                    100 * (close_price[0] - open_price[0]) / open_price[0], 2
-                )
-            except:
-                open_price = [None]
-                close_price = [None]
-                delta_percentage = None
 
         if mode == "DAILY":
             summary_report["tokens_represented"][token] = {
-                "daily_open": open_price[0],  # unpack single value tuple
-                "daily_close": close_price[0],
+                "daily_open": open_price,  # unpack single value tuple
+                "daily_close": close_price,
                 "delta_percentage": delta_percentage,
             }
 
