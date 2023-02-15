@@ -2,7 +2,7 @@ from datetime import datetime
 import dataframe_image as df_image
 import os
 import pandas as pd
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 import plotly.express as px
 from tkinter import Y
 

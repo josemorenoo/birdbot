@@ -1,4 +1,3 @@
-import pandas_datareader as web
 from datetime import datetime
 from Historic_Crypto import HistoricalData
 

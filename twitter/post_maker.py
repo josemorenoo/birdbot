@@ -24,7 +24,7 @@ class PostMaker:
         self.auth.set_access_token(self.config.access_key, self.config.access_secret)
         self.tweepy_api = tweepy.API(self.auth)
 
-    def generate_tweet_text(self, report_date, metric, timeframe="DAILY"):
+    def generate_tweet_text(self, metric, timeframe="DAILY"):
         summary_report_dict = report_util.get_summary_report()
         token_hashtags = " ".join(
             [f"#{each['token']}" for each in summary_report_dict[metric]]
@@ -54,7 +54,7 @@ class PostMaker:
 
         top_loc_img_path = f'/tmp/{GRAPH_NAMES["LOC_AND_EXT"]}'
         loc_tweet_text = self.generate_tweet_text(
-            report_date, "top_by_new_lines", timeframe=timeframe
+            "top_by_new_lines", timeframe=timeframe
         )
 
         self._post_chart_tweet(top_loc_img_path, loc_tweet_text)
@@ -63,7 +63,7 @@ class PostMaker:
 
         top_distinct_authors_img_path = f'/tmp/{GRAPH_NAMES["AUTHORS_AND_EXT"]}'
         authors_tweet_text = self.generate_tweet_text(
-            report_date, "top_by_num_distinct_authors", timeframe=timeframe
+            "top_by_num_distinct_authors", timeframe=timeframe
         )
 
         self._post_chart_tweet(top_distinct_authors_img_path, authors_tweet_text)
@@ -72,7 +72,7 @@ class PostMaker:
 
         top_commits_img_path = f'/tmp/{GRAPH_NAMES["COMMITS_AND_EXT"]}'
         commits_tweet_text = self.generate_tweet_text(
-            report_date, "top_by_num_commits", timeframe=timeframe
+            "top_by_num_commits", timeframe=timeframe
         )
 
         self._post_chart_tweet(top_commits_img_path, commits_tweet_text)
