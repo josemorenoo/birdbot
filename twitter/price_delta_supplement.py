@@ -1,15 +1,16 @@
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 from typing import List
+import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "twitter")))
 
 import report_parser.report_util as report_util
 
 from definitions.colors import COLORS
 from definitions.graph_names import GRAPH_NAMES
-import os
-import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "twitter")))
 
 FONT_ASSET = "assets/arial.ttf"
 

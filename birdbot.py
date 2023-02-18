@@ -5,14 +5,14 @@ import sys
 import time
 from typing import Dict, Optional
 
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot")))
+
 from assets.asset_utils import AssetUtils
 
 from report_parser.report_util import generate_summary_report
 
 from twitter.post_maker import PostMaker
 import twitter.twitter_graphs as graphs
-
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot")))
 
 
 class BirdBot:

@@ -7,6 +7,7 @@ import plotly.express as px
 import sys
 from tkinter import Y
 
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "twitter")))
 
 from definitions.colors import COLORS
 from definitions.graph_names import GRAPH_NAMES
@@ -14,8 +15,6 @@ import twitter.price_delta_supplement as price_delta
 import twitter.file_extension_supplement as extensions
 
 import report_parser.report_util as report_util
-
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "twitter")))
 
 
 def create_img(image_path, fig):
