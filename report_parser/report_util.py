@@ -2,10 +2,14 @@ from datetime import timedelta
 from collections import Counter
 import json
 from typing import Any, List
+import os
+import sys
 
 from assets.file_extension_imgs.file_extensions import FILE_EXTENSIONS
 from report_parser.prices import Prices
 from assets.asset_utils import AssetUtils
+
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "report_parser")))
 
 
 def generate_summary_report(report_date, mode="DAILY"):

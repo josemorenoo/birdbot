@@ -1,9 +1,13 @@
 from PIL import Image
 from typing import List
+import os
+import sys
 
 from assets.file_extension_imgs.file_extensions import FILE_EXTENSIONS
 
 import report_parser.report_util as report_util
+
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "twitter")))
 
 
 def add_ext_imgs_to_graph(

@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot")))
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "twitter")))
 
 from typing import Dict, Optional
 import tweepy

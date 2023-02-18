@@ -1,5 +1,10 @@
+import os
+import sys
+
 from datetime import datetime
 from Historic_Crypto import HistoricalData
+
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "report_parser")))
 
 
 class Prices:
