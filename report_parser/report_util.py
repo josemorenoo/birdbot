@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "report_par
 
 from assets.file_extension_imgs.file_extensions import FILE_EXTENSIONS
 from report_parser.prices import Prices
-from .asset_utils import AssetUtils
+from assets.asset_utils import AssetUtils
 
 
 def generate_summary_report(report_date, mode="DAILY"):
@@ -75,10 +75,6 @@ def generate_summary_report(report_date, mode="DAILY"):
         {"token": token, "count": count, "active_ratio": active_ratio, "label": label}
         for token, count, active_ratio, label in by_distinct_authors
     ]
-
-    # generate file extension breakdown for all tokens represented
-    # tokens_represented = summary_report["tokens_represented"].keys()
-    # graphs.create_file_extension_base_img(tokens_represented, report_date, mode)
 
     if mode == "DAILY":
         with open(
