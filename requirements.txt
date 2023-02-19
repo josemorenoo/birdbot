@@ -1,5 +1,4 @@
 pandas
-numpy
 pyyaml
 tweepy
 Historic_Crypto
