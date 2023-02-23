@@ -3,7 +3,7 @@ from typing import List
 import os
 import sys
 
-from assets.file_extension_imgs.file_extensions import FILE_EXTENSIONS
+from assets.file_extension_imgs.file_extensions import FILE_EXTENSIONS, download_s3_file
 
 import report_parser.report_util as report_util
 
@@ -54,6 +54,7 @@ def add_ext_imgs_to_graph(
                 logo_idx += 1
                 continue
             else:
+                download_s3_file(ext_name)
                 ext_img_path = FILE_EXTENSIONS[ext_name]["path"]
                 bar_graph_img = combine_graph_and_ext_img(
                     bar_graph_img,

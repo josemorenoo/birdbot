@@ -40,3 +40,22 @@ FILE_EXTENSIONS = {
     "yml": {"path": BASE_PATH + "yaml.png", "classification": "config"},
     "yaml": {"path": BASE_PATH + "yaml.png", "classification": "config"},
 }
+
+import boto3
+
+
+def download_s3_file(
+    filename,
+    bucket_name="coincommit",
+    key="assets/twitter_logos/",
+):
+    filename += ".png"
+    local_file_path = BASE_PATH + filename
+    key += filename
+
+    s3 = boto3.client("s3")
+    try:
+        s3.download_file(bucket_name, key, local_file_path)
+        print(f"File downloaded from s3://{bucket_name}/{key} to {local_file_path}")
+    except Exception as e:
+        print(f"Error downloading file from s3://{bucket_name}/{key}: {e}")
