@@ -1,3 +1,4 @@
 tweepy
 Historic_Crypto
 pandas
+numpy
