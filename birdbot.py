@@ -99,5 +99,4 @@ if __name__ == "__main__":
     # post_authors_chart()
 
     bb = BirdBot()
-    # bb.make_report_and_post_all_charts()
-    bb.post_authors_chart(post_to_twitter=False)
+    bb.make_report_and_post_all_charts()
