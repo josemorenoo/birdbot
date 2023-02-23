@@ -1,8 +1,7 @@
+import json
 import os
 from typing import Dict, Optional
 import sys
-
-import yaml
 
 # yikes
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "config")))
@@ -14,7 +13,7 @@ class BirdConfig:
         if os.path.exists(PATHS["BIRD_CONFIG_FILE"]):
             print("BirdConfig loading secrets from local")
             self.exists = True
-            self.bird_config = yaml.safe_load(open(PATHS["BIRD_CONFIG_FILE"]))
+            self.bird_config = json.load(open(PATHS["BIRD_CONFIG_FILE"]))
             self.consumer_key = self.bird_config["CONSUMER_KEY"]
             self.consumer_secret = self.bird_config["CONSUMER_SECRET"]
             self.access_key = self.bird_config["ACCESS_KEY"]

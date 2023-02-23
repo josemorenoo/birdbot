@@ -9,6 +9,6 @@ cwd = os.getcwd()
 
 PATHS = dict(
     BIRD_CONFIG_FILE=os.path.abspath(
-        os.path.join(cwd, f"{prefix}config/local_bird_config.yaml")
+        os.path.join(cwd, f"{prefix}config/local_bird_config.json")
     ),
 )
