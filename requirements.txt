@@ -1,3 +1,4 @@
 pyyaml
 tweepy
 Historic_Crypto
+numpy
