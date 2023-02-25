@@ -1,68 +1,60 @@
 import os
 import sys
+import requests
+from requests import Session
+import json
+from typing import List, Dict, Optional
 
-from datetime import datetime
-from Historic_Crypto import HistoricalData
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "config")))
 
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "report_parser")))
+from config.bird_config import CmcConfig
 
 
 class Prices:
-    def __init__(self, token):
-        self.token = token
-        self.pair = "{}-USD".format(self.token)
+    def __init__(self, sts_secrets: Optional[Dict[str, str]] = None):
+        self.coins_available = self.initialize_id_name_mapping()
+        self.cmc_config = CmcConfig(sts_secrets)
+        self.cmc_key = self.cmc_config.cmc_key
 
-    def _stringify_datetime(self, dt):
-        if int(dt.month) < 10:
-            month = f"0{dt.month}"
-        else:
-            month = dt.month
-        if int(dt.day) < 10:
-            day = f"0{dt.day}"
-        else:
-            day = dt.day
+    def initialize_id_name_mapping(self):
+        with open("assets/coin_list.json", "r") as f:
+            mapping = json.load(f)
+        return mapping
 
-        return "{}-{}-{}".format(dt.year, month, day)
+    def get_prices(self, tokens_represented: List[str]) -> Dict[str, Dict[str, float]]:
+        token_symbols = ",".join(tokens_represented)
 
-    def get_token_price_from_coinbase(self, start_date, end_date, interval_sec=300):
-        """returns a dataframe containing price data for a given token
-        given that Coinbase the price stored somewhere.
-        Returns a dataframe:
+        url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest"
+        parameters = {"symbol": token_symbols}
+        headers = {
+            "Accepts": "application/json",
+            "X-CMC_PRO_API_KEY": self.cmc_key,
+        }
+        session = Session()
+        session.headers.update(headers)
 
-        time                 low    high    open     close    volume
-        2021-12-22 00:05:00  2.3866  2.4054  2.4042  2.3884   61175.067550
-        2021-12-22 00:10:00  2.3843  2.4003  2.3901  2.3987   51876.207316
-        2021-12-22 00:15:00  2.3903  2.3997  2.3993  2.3975   44646.627470
-        2021-12-22 00:20:00  2.3930  2.4088  2.3976  2.4049   45447.516436
-        2021-12-22 00:25:00  2.4004  2.4091  2.4044  2.4070   22489.383224
+        response = session.get(url, params=parameters)
+        response = json.loads(response.text)
+        
+        prices = {"24hr": {}, "7d": {}, "30d": {}}
+        for token_symbol, r in response["data"].items():
+            r = sorted(r, key=lambda d: d['cmc_rank'] if d['cmc_rank'] is not None else 10000000.0, reverse=True)
+            r = r[0] # highest ranking entry
 
-        Args:
-            startDate (datetime)
-            endDate (datetime)
-            interval_sec (int, optional): The time interval width in seconds of each price sample. Defaults to 300.
-        """
+            daily=r["quote"]["USD"]["percent_change_24h"]
+            weekly = r["quote"]["USD"]["percent_change_7d"]
+            monthly = r["quote"]["USD"]["percent_change_30d"]
 
-        def _stringify_datetime(dt):
-            return datetime.strftime(dt, "%Y-%m-%d-%H-%M")
+            daily = round(daily, 2) if daily else None
+            weekly = round(weekly, 2) if weekly else None
+            monthly = round(monthly, 2) if monthly else None
 
-        start_date_str = _stringify_datetime(start_date)
-        if end_date:
-            end_date_str = _stringify_datetime(end_date)
-
-        usd_pair_df = HistoricalData(
-            self.pair, interval_sec, start_date_str, end_date_str
-        ).retrieve_data()
-
-        print("\nFound data for {}:".format(self.pair))
-        print(usd_pair_df.head())
-        return usd_pair_df
-
+            prices["24hr"][token_symbol] = daily
+            prices["7d"][token_symbol] = weekly
+            prices["30d"][token_symbol] = monthly
+        return prices
 
 if __name__ == "__main__":
-    c = Prices(token="ROSE")
-    start = datetime(2023, 1, 23)
-    end = datetime(2023, 1, 24)
-    # d_str = d.strftime("%Y-%m-%d")
-    data = c.get_token_price_df(start, end)
+    c = Prices()
+    data = c.get_prices(tokens_represented=["btc", "lrc", "rose", "sol"])
     print(data)
-    # print(data.loc[d_str])

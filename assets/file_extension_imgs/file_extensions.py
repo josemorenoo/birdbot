@@ -1,15 +1,16 @@
+
 BASE_PATH = "assets/file_extension_imgs/"
 
 FILE_EXTENSIONS = {
     "c": {"path": BASE_PATH + "c.png", "classification": "backend"},
     "css": {"path": BASE_PATH + "css.png", "classification": "frontend"},
     "csv": {"path": BASE_PATH + "csv.png", "classification": "config"},
-    "cjs": {"path": BASE_PATH + "commonjs.png", "classification": "frontend"},
+    "cjs": {"path": BASE_PATH + "cjs.png", "classification": "frontend"},
     "d": {"path": BASE_PATH + "d.png", "classification": "backend"},
     "dockerfile": {"path": BASE_PATH + "docker.png", "classification": "config"},
     "docker-build": {"path": BASE_PATH + "docker.png", "classification": "config"},
     "dune": {"path": BASE_PATH + "dune.png", "classification": "backend"},
-    "go": {"path": BASE_PATH + "golang.png", "classification": "backend"},
+    "go": {"path": BASE_PATH + "go.png", "classification": "backend"},
     "h": {"path": BASE_PATH + "c.png", "classification": "backend"},
     "html": {"path": BASE_PATH + "html.png", "classification": "frontend"},
     "kt": {"path": BASE_PATH + "kt.png", "classification": "mobile"},
@@ -27,7 +28,7 @@ FILE_EXTENSIONS = {
     "pbxproj": {"path": BASE_PATH + "xcode.png", "classification": "backend"},
     "py": {"path": BASE_PATH + "py.png", "classification": "backend"},
     "rs": {"path": BASE_PATH + "rs.png", "classification": "backend"},
-    "scss": {"path": BASE_PATH + "css.png", "classification": "frontend"},
+    "scss": {"path": BASE_PATH + "scss.png", "classification": "frontend"},
     "sh": {"path": BASE_PATH + "sh.png", "classification": "backend"},
     "swift": {"path": BASE_PATH + "swift.png", "classification": "mobile"},
     "svelte": {"path": BASE_PATH + "svelte.png", "classification": "frontend"},
@@ -42,16 +43,21 @@ FILE_EXTENSIONS = {
 }
 
 import boto3
+import os
 
 
 def download_s3_file(
     filename,
     bucket_name="coincommit",
-    key="assets/twitter_logos/",
+    key="assets/file_extension_imgs/",
 ):
-    filename += ".png"
-    local_file_path = BASE_PATH + filename
-    key += filename
+    
+    
+    local_file_path = FILE_EXTENSIONS[filename]["path"]
+    key += FILE_EXTENSIONS[filename]["path"].split('/')[-1]
+
+    if os.path.exists(key):
+        return
 
     s3 = boto3.client("s3")
     try:

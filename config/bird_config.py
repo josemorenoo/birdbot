@@ -36,3 +36,24 @@ class BirdConfig:
             print(
                 f"BirdConfig: no local environment config and no AWS SecretManager secrets found, something is off"
             )
+
+class CmcConfig:
+    def __init__(self, sts_secrets: Optional[Dict[str, str]] = None):
+        local_path = os.path.exists(PATHS["BIRD_CONFIG_FILE"])
+        if local_path:
+            print("CmcConfig loading secrets from local")
+            self.exists = True
+            self.cmc_config = json.load(open(PATHS["BIRD_CONFIG_FILE"]))
+            self.cmc_key = self.cmc_config["CMC_KEY"]
+        elif sts_secrets is not None:
+            print("CmcConfig loading secrets from SecretsManager")
+            self.cmc_config = None
+            self.cmc_key = sts_secrets["CMC_KEY"]
+            self.exists = True
+        else:
+            self.cmc_config = None
+            self.cmc_key = None
+            self.exists = False
+            print(
+                f"CmcConfig: no local environment config and no AWS SecretManager secrets found, cwd: {os.getcwd()}, local path: {local_path}"
+            )

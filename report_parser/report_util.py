@@ -1,7 +1,7 @@
 from datetime import timedelta
 from collections import Counter
 import json
-from typing import Any, List
+from typing import Any, List, Dict, Union
 import os
 import sys
 
@@ -40,29 +40,12 @@ def generate_summary_report(report_date, mode="DAILY"):
         + [x[0] for x in by_LOC]
         + [x[0] for x in by_distinct_authors]
     )
-    for token in tokens_represented:
-        co = Prices(token)
-
-        # add price data for each token in top 10 across all categories
-        try:  # primary source, coinbase
-            print(f"{token}, trying coinbase for price data")
-            daily_df = co.get_token_price_from_coinbase(
-                start_date=start_date, end_date=report_date
-            )
-            open_price = daily_df["open"].values[0]
-            close_price = daily_df["close"].values[-1]
-            delta_percentage = round(100 * (close_price - open_price) / open_price, 2)
-        except Exception as e:
-            print(e)
-            open_price = None
-            close_price = None
-            delta_percentage = None
-
+    prices = Prices()
+    price_data = prices.get_prices(list(tokens_represented))
+    for token_symbol, price_change in price_data["24hr"].items():
         if mode == "DAILY":
-            summary_report["tokens_represented"][token] = {
-                "daily_open": open_price,  # unpack single value tuple
-                "daily_close": close_price,
-                "delta_percentage": delta_percentage,
+            summary_report["tokens_represented"][token_symbol] = {
+                "delta_percentage": price_change,
             }
 
     summary_report["top_by_num_commits"] = [
