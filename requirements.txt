@@ -1,4 +1,4 @@
 tweepy
 requests
 plotly
-plotly-express
+pandas
