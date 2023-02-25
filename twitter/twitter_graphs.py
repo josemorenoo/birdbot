@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import plotly.express as px
+import plotly.graph_objs as go
 import sys
 from tkinter import Y
 
@@ -34,18 +35,19 @@ def create_top_by_loc_graph(report_date, mode="DAILY"):
     token_list = [loc[0] for loc in by_locs]
     locs_list = [loc[1] for loc in by_locs]
 
-    fig = px.bar(
-        x=locs_list,
-        y=[f"{token} " for token in token_list],
-        orientation="h",
-        title=title,
-        template="plotly_dark",
-    )
+    data = [    
+        go.Bar(       
+            y=[f"{token} " for token in token_list],
+            x=locs_list,
+            orientation='h'
+        )
+    ]
 
-    fig.update_layout(
+    layout = go.Layout(
+        template='plotly_dark',
         margin=dict(l=130),
         plot_bgcolor=COLORS["background_blue"],  # plot dark background
-        title=dict(x=0.5, font_size=18),  # center title
+        title=dict(text=title, x=0.5, font_size=18),  # center title
         font=dict(family="courier"),
         xaxis=dict(
             title=dict(text="New Lines of Code", font=dict(size=20)),
@@ -60,6 +62,9 @@ def create_top_by_loc_graph(report_date, mode="DAILY"):
             tickfont=dict(size=18),
         ),
     )
+
+    fig = go.Figure(data=data, layout=layout)
+
     fig.update_traces(
         marker_color=COLORS["loc_pink"],
         textposition="inside",
@@ -108,26 +113,27 @@ def create_top_by_num_authors_graph(report_date, mode="DAILY"):
 
     # flip so that they show up in descending order on HORIZONTAL bar graph
     by_authors = by_authors[::-1]
-    tokens_represented = [metadata[0] for metadata in by_authors]
+    token_list = [metadata[0] for metadata in by_authors]
     distinct_dev_counts = [metadata[1] for metadata in by_authors]
     active_team_ratio = [metadata[2] for metadata in by_authors]
     labels = [metadata[3] for metadata in by_authors]
 
-    fig = px.bar(
-        x=active_team_ratio,
-        y=[f"{token} " for token in tokens_represented],
-        orientation="h",
-        title=title,
-        template="plotly_dark",
-    )
+    data = [    
+        go.Bar(       
+            y=[f"{token} " for token in token_list],
+            x=[round(100*r, 2) for r in active_team_ratio],
+            orientation='h'
+        )
+    ]
 
-    fig.update_layout(
+    layout = go.Layout(
+        template='plotly_dark',
         margin=dict(l=130),
         plot_bgcolor=COLORS["background_blue"],  # plot dark background
-        title=dict(x=0.5, font_size=18),  # center title
+        title=dict(text=title, x=0.5, font_size=18),  # center title
         font=dict(family="courier"),
         xaxis=dict(
-            title=dict(text="Active Team Ratio", font=dict(size=20)),
+            title=dict(text="Active Team Percentage (%)", font=dict(size=20)),
             tickfont=dict(size=18),
         ),
         yaxis=dict(
@@ -139,10 +145,13 @@ def create_top_by_num_authors_graph(report_date, mode="DAILY"):
             tickfont=dict(size=18),
         ),
     )
+
+    fig = go.Figure(data=data, layout=layout)
+
     fig.update_traces(
         marker_color=COLORS["dev_purple"],
         textposition="inside",
-        text=[f"{label}" for label in labels],
+        text=[l for l in labels],  # bar graph annotations
         textfont=dict(color=COLORS["background_blue"], size=20),
     )
 
@@ -165,7 +174,7 @@ def create_top_by_num_authors_graph(report_date, mode="DAILY"):
     with_extension_logos = extensions.add_ext_imgs_to_graph(
         bar_graph_img=combined_img,
         report_date=report_date,
-        tokens_represented_in_graph=tokens_represented,
+        tokens_represented_in_graph=token_list,
         bar_percentages=bar_percentages,
     )
 
@@ -190,21 +199,22 @@ def create_top_commits_daily_graph(report_date, mode="DAILY"):
     token_list = [x[0] for x in by_commits]
     commits_list = [x[1] for x in by_commits]
 
-    fig = px.bar(
-        x=commits_list,
-        y=[f"{token} " for token in token_list],
-        orientation="h",
-        title=title,
-        template="plotly_dark",
-    )
+    data = [    
+        go.Bar(       
+            y=[f"{token} " for token in token_list],
+            x=commits_list,
+            orientation='h'
+        )
+    ]
 
-    fig.update_layout(
+    layout = go.Layout(
+        template='plotly_dark',
         margin=dict(l=130),
         plot_bgcolor=COLORS["background_blue"],  # plot dark background
-        title=dict(x=0.5, font_size=22),  # center title
+        title=dict(text=title, x=0.5, font_size=18),  # center title
         font=dict(family="courier"),
         xaxis=dict(
-            title=dict(text="Number of commits", font=dict(size=20)),
+            title=dict(text="Number of Commits", font=dict(size=20)),
             tickfont=dict(size=18),
         ),
         yaxis=dict(
@@ -216,10 +226,13 @@ def create_top_commits_daily_graph(report_date, mode="DAILY"):
             tickfont=dict(size=18),
         ),
     )
+
+    fig = go.Figure(data=data, layout=layout)
+
     fig.update_traces(
         marker_color=COLORS["text_green"],
         textposition="inside",
-        text=[f"+{commit_count}" for commit_count in commits_list],
+        text=[f"+{loc_count}" for loc_count in commits_list],  # bar graph annotations
         textfont=dict(color=COLORS["background_blue"], size=20),
     )
 

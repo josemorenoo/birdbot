@@ -40,8 +40,9 @@ def generate_summary_report(report_date, mode="DAILY"):
         + [x[0] for x in by_LOC]
         + [x[0] for x in by_distinct_authors]
     )
-    prices = Prices()
-    price_data = prices.get_prices(list(tokens_represented))
+    #prices = Prices()
+    #price_data = prices.get_prices(list(tokens_represented))
+    price_data = {"24hr": {sym: None for sym in tokens_represented}}
     for token_symbol, price_change in price_data["24hr"].items():
         if mode == "DAILY":
             summary_report["tokens_represented"][token_symbol] = {
