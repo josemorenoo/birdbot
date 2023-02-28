@@ -2,3 +2,4 @@ tweepy
 requests
 plotly
 pandas
+Pillow
