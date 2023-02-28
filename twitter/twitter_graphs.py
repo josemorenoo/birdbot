@@ -1,9 +1,7 @@
 from datetime import datetime
 import os
-import plotly.express as px
 import plotly.graph_objs as go
 import sys
-from tkinter import Y
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "twitter")))
 
