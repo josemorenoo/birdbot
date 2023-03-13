@@ -12,7 +12,7 @@ from report_parser.prices import Prices
 from assets.asset_utils import AssetUtils
 
 
-def generate_summary_report(report_date, mode="DAILY"):
+def generate_summary_report(report_date, mode="DAILY") -> str:
     """Displays the top 10 projects across multiple categories
     - most commits
     - most new lines of code
@@ -21,10 +21,9 @@ def generate_summary_report(report_date, mode="DAILY"):
     Assumes the daily report already exists at reports/daily/<YYY-MM-DD>/<YYY-MM-DD>.json
 
     Args:
-        report_date_str (str): "YYY-MM-DD"
+        report_date_str (str): "YYYY-MM-DD"
     """
     if mode == "DAILY":
-        start_date = report_date - timedelta(hours=24)
         report_date_str = report_date.strftime("%Y-%m-%d")
 
     # display the top 10 from the daily report
@@ -40,8 +39,8 @@ def generate_summary_report(report_date, mode="DAILY"):
         + [x[0] for x in by_LOC]
         + [x[0] for x in by_distinct_authors]
     )
-    #prices = Prices()
-    #price_data = prices.get_prices(list(tokens_represented))
+    # prices = Prices()
+    # price_data = prices.get_prices(list(tokens_represented))
     price_data = {"24hr": {sym: None for sym in tokens_represented}}
     for token_symbol, price_change in price_data["24hr"].items():
         if mode == "DAILY":
@@ -60,13 +59,16 @@ def generate_summary_report(report_date, mode="DAILY"):
         for token, count, active_ratio, label in by_distinct_authors
     ]
 
+    output_path = ""
     if mode == "DAILY":
+        output_path = f"/tmp/{report_date_str}_summary.json"
         with open(
-            f"/tmp/summary.json",
+            output_path,
             "w",
             encoding="utf-8",
         ) as f:
             json.dump(summary_report, f, ensure_ascii=False, indent=2)
+    return output_path
 
 
 ### ### ### ### ### vvv METRICS vvv ### ### ### ### ###
