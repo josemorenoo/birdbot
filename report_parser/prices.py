@@ -16,7 +16,11 @@ class Prices:
         self.cmc_key = self.cmc_config.cmc_key
 
     def initialize_id_name_mapping(self):
-        with open("assets/coin_list.json", "r") as f:
+        if os.getcwd().endswith("birdbot"):
+            coin_list_path = "assets/coin_list.json"
+        else:
+            coin_list_path = "birdbot/assets/coin_list.json"
+        with open(coin_list_path, "r") as f:
             mapping = json.load(f)
         return mapping
 
