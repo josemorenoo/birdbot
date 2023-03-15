@@ -44,7 +44,6 @@ def generate_summary_report(report_date, report_path=None, mode="DAILY") -> str:
     )
     prices = Prices()
     price_data = prices.get_prices(list(tokens_represented))
-    print(json.dumps(price_data, indent=2))
 
     # price_data = {"24hr": {sym: None for sym in tokens_represented}}
     if "DAILY" in mode:

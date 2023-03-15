@@ -43,6 +43,7 @@ class Prices:
 
         response = session.get(url, params=parameters)
         response = json.loads(response.text)
+        print(response)
 
         prices = {"24hr": {}, "7d": {}, "30d": {}}
         try:
