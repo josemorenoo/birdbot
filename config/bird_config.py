@@ -40,6 +40,14 @@ class BirdConfig:
 
 class CmcConfig:
     def __init__(self, sts_secrets: Optional[Dict[str, str]] = None):
+
+        if os.getcwd().endswith("scraper-infra"):
+            PATHS = dict(BIRD_CONFIG_FILE="birdbot/config/local_bird_config.json")
+            local_path = os.path.exists(PATHS["BIRD_CONFIG_FILE"])
+            print(
+                f"invoked from scraper-infra, setting local config file to {PATHS['BIRD_CONFIG_FILE']}, local_path={local_path}"
+            )
+
         local_path = os.path.exists(PATHS["BIRD_CONFIG_FILE"])
         if local_path:
             print("CmcConfig loading secrets from local")
