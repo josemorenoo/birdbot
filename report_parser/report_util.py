@@ -23,8 +23,7 @@ def generate_summary_report(report_date, report_path=None, mode="DAILY") -> str:
     Args:
         report_date_str (str): "YYYY-MM-DD"
     """
-    if mode == "DAILY":
-        report_date_str = report_date.strftime("%Y-%m-%d")
+    report_date_str = report_date.strftime("%Y-%m-%d")
 
     # display the top 10 from the daily report
     by_commits = get_most_active_by_commits(
