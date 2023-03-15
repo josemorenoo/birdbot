@@ -67,12 +67,14 @@ def generate_summary_report(report_date, report_path=None, mode="DAILY") -> str:
     output_path = ""
     if mode == "DAILY":
         output_path = f"/tmp/{report_date_str}_summary.json"
-        with open(
-            output_path,
-            "w",
-            encoding="utf-8",
-        ) as f:
-            json.dump(summary_report, f, ensure_ascii=False, indent=2)
+    if mode == "WEEKLY":
+        output_path = "/tmp/weekly_summary.json"
+    with open(
+        output_path,
+        "w",
+        encoding="utf-8",
+    ) as f:
+        json.dump(summary_report, f, ensure_ascii=False, indent=2)
     return output_path
 
 
