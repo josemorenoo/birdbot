@@ -100,6 +100,6 @@ if __name__ == "__main__":
 
     bb = BirdBot()
     bb.make_report_and_post_all_charts(post_to_twitter=True)
-    #bb.post_commits_chart(post_to_twitter=False)
-    #bb.post_authors_chart(post_to_twitter=False)
-    #bb.post_loc_chart(post_to_twitter=False)
+    # bb.post_commits_chart(post_to_twitter=False)
+    # bb.post_authors_chart(post_to_twitter=False)
+    # bb.post_loc_chart(post_to_twitter=False)

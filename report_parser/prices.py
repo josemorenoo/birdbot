@@ -35,13 +35,19 @@ class Prices:
 
         response = session.get(url, params=parameters)
         response = json.loads(response.text)
-        
+
         prices = {"24hr": {}, "7d": {}, "30d": {}}
         for token_symbol, r in response["data"].items():
-            r = sorted(r, key=lambda d: d['cmc_rank'] if d['cmc_rank'] is not None else 10000000.0, reverse=True)
-            r = r[0] # highest ranking entry
+            r = sorted(
+                r,
+                key=lambda d: d["cmc_rank"]
+                if d["cmc_rank"] is not None
+                else 10000000.0,
+                reverse=True,
+            )
+            r = r[0]  # highest ranking entry
 
-            daily=r["quote"]["USD"]["percent_change_24h"]
+            daily = r["quote"]["USD"]["percent_change_24h"]
             weekly = r["quote"]["USD"]["percent_change_7d"]
             monthly = r["quote"]["USD"]["percent_change_30d"]
 
@@ -53,6 +59,7 @@ class Prices:
             prices["7d"][token_symbol] = weekly
             prices["30d"][token_symbol] = monthly
         return prices
+
 
 if __name__ == "__main__":
     c = Prices()
