@@ -40,27 +40,30 @@ class Prices:
         response = json.loads(response.text)
 
         prices = {"24hr": {}, "7d": {}, "30d": {}}
-        for token_symbol, r in response["data"].items():
-            r = sorted(
-                r,
-                key=lambda d: d["cmc_rank"]
-                if d["cmc_rank"] is not None
-                else 10000000.0,
-                reverse=True,
-            )
-            r = r[0]  # highest ranking entry
+        try:
+            for token_symbol, r in response["data"].items():
+                r = sorted(
+                    r,
+                    key=lambda d: d["cmc_rank"]
+                    if d["cmc_rank"] is not None
+                    else 10000000.0,
+                    reverse=True,
+                )
+                r = r[0]  # highest ranking entry
 
-            daily = r["quote"]["USD"]["percent_change_24h"]
-            weekly = r["quote"]["USD"]["percent_change_7d"]
-            monthly = r["quote"]["USD"]["percent_change_30d"]
+                daily = r["quote"]["USD"]["percent_change_24h"]
+                weekly = r["quote"]["USD"]["percent_change_7d"]
+                monthly = r["quote"]["USD"]["percent_change_30d"]
 
-            daily = round(daily, 2) if daily else None
-            weekly = round(weekly, 2) if weekly else None
-            monthly = round(monthly, 2) if monthly else None
+                daily = round(daily, 2) if daily else None
+                weekly = round(weekly, 2) if weekly else None
+                monthly = round(monthly, 2) if monthly else None
 
-            prices["24hr"][token_symbol] = daily
-            prices["7d"][token_symbol] = weekly
-            prices["30d"][token_symbol] = monthly
+                prices["24hr"][token_symbol] = daily
+                prices["7d"][token_symbol] = weekly
+                prices["30d"][token_symbol] = monthly
+        except:
+            print(response)
         return prices
 
 
