@@ -42,7 +42,7 @@ class CmcConfig:
     def __init__(self, sts_secrets: Optional[Dict[str, str]] = None):
         import os
 
-        print(os.getcwd())
+        print(os.getcwd(), PATHS["BIRD_CONFIG_FILE"])
         local_path = os.path.exists(PATHS["BIRD_CONFIG_FILE"])
         if local_path:
             print("CmcConfig loading secrets from local")
