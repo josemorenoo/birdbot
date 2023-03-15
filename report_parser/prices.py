@@ -3,10 +3,15 @@ import sys
 from requests import Session
 import json
 from typing import List, Dict, Optional
+import os
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "birdbot", "config")))
 
-from config.bird_config import CmcConfig
+
+if os.getcwd().endswith("birdbot"):
+    from config.bird_config import CmcConfig
+else:
+    from birdbot.config.bird_config import CmcConfig
 
 
 class Prices:
