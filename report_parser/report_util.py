@@ -52,10 +52,9 @@ def generate_summary_report(report_date, report_path=None, mode="DAILY") -> str:
         time_key = "7d"
 
     for token_symbol, price_change in price_data[time_key].items():
-        if mode == "DAILY":
-            summary_report["tokens_represented"][token_symbol] = {
-                "delta_percentage": price_change,
-            }
+        summary_report["tokens_represented"][token_symbol] = {
+            "delta_percentage": price_change,
+        }
 
     summary_report["top_by_num_commits"] = [
         {"token": token, "count": count} for token, count in by_commits
