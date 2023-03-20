@@ -1,7 +1,7 @@
 from datetime import timedelta
 from collections import Counter
 import json
-from typing import Any, List, Dict, Union
+from typing import Any, List, Dict, Union, Optional
 import os
 import sys
 
@@ -12,7 +12,12 @@ from report_parser.prices import Prices
 from assets.asset_utils import AssetUtils
 
 
-def generate_summary_report(report_date, report_path=None, mode="DAILY") -> str:
+def generate_summary_report(
+    report_date,
+    report_path=None,
+    mode="DAILY",
+    sts_secrets: Optional[Dict[str, str]] = None,
+) -> str:
     """Displays the top 10 projects across multiple categories
     - most commits
     - most new lines of code
@@ -42,7 +47,7 @@ def generate_summary_report(report_date, report_path=None, mode="DAILY") -> str:
         + [x[0] for x in by_LOC]
         + [x[0] for x in by_distinct_authors]
     )
-    prices = Prices()
+    prices = Prices(sts_secrets)
     price_data = prices.get_prices(list(tokens_represented))
 
     # price_data = {"24hr": {sym: None for sym in tokens_represented}}
