@@ -74,7 +74,7 @@ def generate_summary_report(
 
     output_path = ""
     if mode == "DAILY":
-        output_path = f"/tmp/{report_date_str}_summary.json"
+        output_path = f"/tmp/summary.json"
     if mode == "WEEKLY":
         output_path = "/tmp/weekly_summary.json"
     with open(
