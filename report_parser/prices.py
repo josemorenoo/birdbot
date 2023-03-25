@@ -17,9 +17,6 @@ else:
 class Prices:
     def __init__(self, sts_secrets: Optional[Dict[str, str]] = None):
         self.coins_available = self.initialize_id_name_mapping()
-        print(
-            f"initializeing CmcConfig from birdbot.Prices, sts_secrets has {len(sts_secrets)} objects"
-        )
         self.cmc_config = CmcConfig(sts_secrets)
         self.cmc_key = self.cmc_config.cmc_key
 
