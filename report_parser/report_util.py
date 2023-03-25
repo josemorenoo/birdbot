@@ -47,6 +47,7 @@ def generate_summary_report(
         + [x[0] for x in by_LOC]
         + [x[0] for x in by_distinct_authors]
     )
+    print(f"report_util, sts_secrets has {len(sts_secrets)}")
     prices = Prices(sts_secrets)
     price_data = prices.get_prices(list(tokens_represented))
 
