@@ -16,6 +16,7 @@ else:
 
 class Prices:
     def __init__(self, sts_secrets: Optional[Dict[str, str]] = None):
+        print(sts_secrets)
         self.coins_available = self.initialize_id_name_mapping()
         self.cmc_config = CmcConfig(sts_secrets)
         self.cmc_key = self.cmc_config.cmc_key
