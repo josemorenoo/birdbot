@@ -20,6 +20,7 @@ class AssetUtils:
         local_report_path = f"/tmp/{report_date_str}.json"
 
         s3_client = boto3.resource("s3")
+        print(cls.BUCKET, report_path, local_report_path)
         s3_client.Bucket(cls.BUCKET).download_file(report_path, local_report_path)
         return local_report_path
 
