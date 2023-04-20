@@ -31,13 +31,9 @@ def generate_summary_report(
     report_date_str = report_date.strftime("%Y-%m-%d")
 
     # display the top 10 from the daily report
-    by_commits = get_most_active_by_commits(
-        report_date_str, report_path, n=10, mode=mode
-    )
-    by_LOC = get_most_active_by_loc(report_date_str, report_path, n=10, mode=mode)
-    by_distinct_authors = get_most_active_by_author(
-        report_date_str, report_path, n=10, mode=mode
-    )
+    by_commits = get_most_active_by_commits(report_path, n=10)
+    by_LOC = get_most_active_by_loc(report_path, n=10)
+    by_distinct_authors = get_most_active_by_author(report_path, n=10)
 
     summary_report = {"tokens_represented": {}}
 
@@ -55,6 +51,8 @@ def generate_summary_report(
         time_key = "24hr"
     if "WEEKLY" in mode:
         time_key = "7d"
+    if "MONTHLY" in mode:
+        time_key = "1m"
 
     for token_symbol, price_change in price_data[time_key].items():
         summary_report["tokens_represented"][token_symbol] = {
@@ -77,6 +75,8 @@ def generate_summary_report(
         output_path = f"/tmp/summary.json"
     if mode == "WEEKLY":
         output_path = "/tmp/weekly_summary.json"
+    if mode == "MONTHLY":
+        output_path = "/tmp/monthly_summary.json"
     with open(
         output_path,
         "w",
@@ -89,9 +89,7 @@ def generate_summary_report(
 ### ### ### ### ### vvv METRICS vvv ### ### ### ### ###
 
 
-def get_most_active_by_commits(
-    report_date_str: str, report_path=None, n=10, mode="DAILY"
-):
+def get_most_active_by_commits(report_date_str: str, report_path, n=10, mode="DAILY"):
     """Sorts tokens by most active to least active
 
     Args:
@@ -101,9 +99,9 @@ def get_most_active_by_commits(
     Returns:
         [List[tuple(token_name, commit_count)]
     """
+
     if mode == "DAILY":
         report_json_path = f"/tmp/{report_date_str}.json"
-
     if report_path:
         report_json_path = report_path
 
@@ -123,9 +121,7 @@ def get_most_active_by_commits(
     return by_commits
 
 
-def get_most_active_by_author(
-    report_date_str: str, report_path=None, n=10, mode="DAILY"
-):
+def get_most_active_by_author(report_date_str: str, report_path, n=10, mode="DAILY"):
     """Sorts tokens by most active to least active
 
     Args:
@@ -140,7 +136,8 @@ def get_most_active_by_author(
         str, List[Dict[str, Union[str, int]]]
     ] = AssetUtils.open_contributors_asset()
 
-    report_json_path = f"/tmp/{report_date_str}.json"
+    if mode == "DAILY":
+        report_json_path = f"/tmp/{report_date_str}.json"
     if report_path:
         report_json_path = report_path
 
@@ -169,7 +166,7 @@ def get_most_active_by_author(
     return top_n_projects_by_authors
 
 
-def get_most_active_by_loc(report_date_str: str, report_path=None, n=10, mode="DAILY"):
+def get_most_active_by_loc(report_date_str: str, report_path, n=10, mode="DAILY"):
     """Sorts tokens by most active to least active
 
     Args:
