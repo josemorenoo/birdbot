@@ -30,10 +30,10 @@ def generate_summary_report(
     """
     report_date_str = report_date.strftime("%Y-%m-%d")
 
-    # display the top 10 from the daily report
-    by_commits = get_most_active_by_commits(report_path, n=10)
-    by_LOC = get_most_active_by_loc(report_path, n=10)
-    by_distinct_authors = get_most_active_by_author(report_path, n=10)
+    # display the top 10 from the daily report | only the report_path is used here
+    by_commits = get_most_active_by_commits(report_date_str, report_path, n=10)
+    by_LOC = get_most_active_by_loc(report_date_str, report_path, n=10)
+    by_distinct_authors = get_most_active_by_author(report_date_str, report_path, n=10)
 
     summary_report = {"tokens_represented": {}}
 
