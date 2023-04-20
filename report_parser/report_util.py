@@ -52,7 +52,7 @@ def generate_summary_report(
     if "WEEKLY" in mode:
         time_key = "7d"
     if "MONTHLY" in mode:
-        time_key = "1m"
+        time_key = "30d"
 
     for token_symbol, price_change in price_data[time_key].items():
         summary_report["tokens_represented"][token_symbol] = {
