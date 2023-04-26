@@ -121,7 +121,9 @@ def get_most_active_by_commits(report_date_str: str, report_path, n=10, mode="DA
     return by_commits
 
 
-def get_most_active_by_author(report_date_str: str, report_path, n=10, mode="DAILY"):
+def get_most_active_by_author(
+    report_date_str: str, report_path=None, n=10, mode="DAILY"
+):
     """Sorts tokens by most active to least active
 
     Args:

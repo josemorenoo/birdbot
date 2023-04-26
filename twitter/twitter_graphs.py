@@ -33,16 +33,12 @@ def create_top_by_loc_graph(report_date, mode="DAILY"):
     token_list = [loc[0] for loc in by_locs]
     locs_list = [loc[1] for loc in by_locs]
 
-    data = [    
-        go.Bar(       
-            y=[f"{token} " for token in token_list],
-            x=locs_list,
-            orientation='h'
-        )
+    data = [
+        go.Bar(y=[f"{token} " for token in token_list], x=locs_list, orientation="h")
     ]
 
     layout = go.Layout(
-        template='plotly_dark',
+        template="plotly_dark",
         margin=dict(l=130),
         plot_bgcolor=COLORS["background_blue"],  # plot dark background
         title=dict(text=title, x=0.5, font_size=18),  # center title
@@ -116,16 +112,16 @@ def create_top_by_num_authors_graph(report_date, mode="DAILY"):
     active_team_ratio = [metadata[2] for metadata in by_authors]
     labels = [metadata[3] for metadata in by_authors]
 
-    data = [    
-        go.Bar(       
+    data = [
+        go.Bar(
             y=[f"{token} " for token in token_list],
-            x=[round(100*r, 2) for r in active_team_ratio],
-            orientation='h'
+            x=[round(100 * r, 2) for r in active_team_ratio],
+            orientation="h",
         )
     ]
 
     layout = go.Layout(
-        template='plotly_dark',
+        template="plotly_dark",
         margin=dict(l=130),
         plot_bgcolor=COLORS["background_blue"],  # plot dark background
         title=dict(text=title, x=0.5, font_size=18),  # center title
@@ -197,16 +193,12 @@ def create_top_commits_daily_graph(report_date, mode="DAILY"):
     token_list = [x[0] for x in by_commits]
     commits_list = [x[1] for x in by_commits]
 
-    data = [    
-        go.Bar(       
-            y=[f"{token} " for token in token_list],
-            x=commits_list,
-            orientation='h'
-        )
+    data = [
+        go.Bar(y=[f"{token} " for token in token_list], x=commits_list, orientation="h")
     ]
 
     layout = go.Layout(
-        template='plotly_dark',
+        template="plotly_dark",
         margin=dict(l=130),
         plot_bgcolor=COLORS["background_blue"],  # plot dark background
         title=dict(text=title, x=0.5, font_size=18),  # center title
