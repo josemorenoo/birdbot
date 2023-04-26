@@ -89,7 +89,9 @@ def generate_summary_report(
 ### ### ### ### ### vvv METRICS vvv ### ### ### ### ###
 
 
-def get_most_active_by_commits(report_date_str: str, report_path, n=10, mode="DAILY"):
+def get_most_active_by_commits(
+    report_date_str: str, report_path=None, n=10, mode="DAILY"
+):
     """Sorts tokens by most active to least active
 
     Args:
@@ -168,7 +170,7 @@ def get_most_active_by_author(
     return top_n_projects_by_authors
 
 
-def get_most_active_by_loc(report_date_str: str, report_path, n=10, mode="DAILY"):
+def get_most_active_by_loc(report_date_str: str, report_path=None, n=10, mode="DAILY"):
     """Sorts tokens by most active to least active
 
     Args:
