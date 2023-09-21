@@ -1,6 +1,6 @@
-# BirdBot - Crypto Projects Activity Twitter Bot
+# BirdBot - Crypto Twitter Bot
 
-#### note: this README was auto-generated using ChatGPT, use at your own peril
+### Note: this README was auto-generated using ChatGPT, use at your own peril
 
 
 BirdBot is a Twitter bot that posts daily summaries of developer activities in various cryptocurrency projects. The bot generates and shares bar graphs displaying metrics such as the number of commits, lines of code added, and unique authors contributing to project repositories.
