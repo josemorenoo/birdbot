@@ -18,6 +18,7 @@ class BirdConfig:
             self.consumer_secret = self.bird_config["CONSUMER_SECRET"]
             self.access_key = self.bird_config["ACCESS_KEY"]
             self.access_secret = self.bird_config["ACCESS_SECRET"]
+            self.bearer_token = self.bird_config["BEARER_TOKEN"]
         elif sts_secrets is not None:
             print("BirdConfig loading secrets from SecretsManager")
             self.bird_config = None
@@ -25,6 +26,7 @@ class BirdConfig:
             self.consumer_secret = sts_secrets["CONSUMER_SECRET"]
             self.access_key = sts_secrets["ACCESS_KEY"]
             self.access_secret = sts_secrets["ACCESS_SECRET"]
+            self.bearer_token = sts_secrets["BEARER_TOKEN"]
             self.exists = True
         else:
             self.bird_config = None
@@ -32,6 +34,7 @@ class BirdConfig:
             self.consumer_secret = None
             self.access_key = None
             self.access_secret = None
+            self.bearer_token = None
             self.exists = False
             print(
                 f"BirdConfig: no local environment config and no AWS SecretManager secrets found, something is off"
